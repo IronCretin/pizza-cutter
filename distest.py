@@ -1,3 +1,7 @@
+"""
+Test renderer for line generation
+"""
+
 import matplotlib.pyplot as plt
 import genline as gl
 import sys
