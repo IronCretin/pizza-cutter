@@ -71,7 +71,7 @@ class Pizza:
 		arrayOfSlopes = Pizza.GiveListOfSlopes(arrayOfLines)
 
 		for i in range(0, len(arrayOfLines)):
-			for j in range(0, len(arrayOfLines)):
+			for j in range(i, len(arrayOfLines)):
 				if (arrayOfLines[i] == arrayOfLines[j]):
 					continue
 				else:
@@ -79,7 +79,7 @@ class Pizza:
 					if (Pizza.checkIfInUnitCircle(p)):
 						pX = p[0]
 						IntersectionXs = Pizza.GiveCurrentIntersectionsSet(pX, IntersectionXs)
-						edges += 1
+						edges += 2
 
 				
 		Vertices = len(IntersectionXs)+6
