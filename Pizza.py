@@ -19,54 +19,66 @@ class Pizza:
 				return IntersectionXs
 		IntersectionXs.add(x)
 		return IntersectionXs
-	def main():
-		n = 3
-
-		IntersectionXs = set()
+	def giveListOfLines(n):
 		arrayOfLines = []
-	
-		arrayOfSlopes = []
-
-		vertices = 2 * len(arrayOfLines)
-		edges = 2 * len(arrayOfLines)
 		for i in range(0, n):
 		
-			x1 = math.cos(random.random()*2*math.pi)
-			y1 = math.sin(random.random()*2*math.pi)
-			x2 = math.cos(random.random()*2*math.pi)
-			y2 = math.sin(random.random()*2*math.pi)
+			theta1 = random.random()*2*math.pi
+			x1 = math.cos(theta1)
+			y1 = math.sin(theta1)
 
-			arrayOfLines += [((x1, y1),(x2,y2))]
-	
+			theta2 = random.random()*2*math.pi			
+			x2 = math.cos(theta2)
+			y2 = math.sin(theta2)
 
-
-		for i in range(0, len(arrayOfLines)):
+			arrayOfLines += [((x1, y1),(x2, y2))]
+		return arrayOfLines
+	def GiveListOfSlopes(arrayOfLines):
+		arrayOfSlopes = []
+		for i in range(len(arrayOfLines)):
 			dx = arrayOfLines[i][0][0] - arrayOfLines[i][1][0]
 			dy = arrayOfLines[i][0][1] - arrayOfLines[i][1][1]
 			m = dy / dx 
 			arrayOfSlopes += [m]
+		return arrayOfSlopes
+	def giveIntersectionPointBetweenLines_i_and_j(i, j, arrayOfSlopes, arrayOfLines):
+		m1 = arrayOfSlopes[i]
+		m2 = arrayOfSlopes[j]
+
+		x1 = arrayOfLines[i][0][0]
+		x2 = arrayOfLines[j][0][0]
+
+		y1 = arrayOfLines[i][0][1]
+		y2 = arrayOfLines[j][0][1]
+
+		x = Pizza.findIntersectionXValueBetweenFunc_iAndFunc_j(m1, m2, x1, x2, y1, y2)
+		y = Pizza.findYValueFromXValueAndEquation(x, m1, x1, y1)
+
+		return (x, y)
+				
+	def main():
+		n = 3
+
+		IntersectionXs = set()
+		arrayOfLines = []	
+		arrayOfSlopes = []
+
+		vertices = 0
+		edges = 0
+
+		
+		arrayOfLines = Pizza.giveListOfLines(n)		
+		arrayOfSlopes = Pizza.GiveListOfSlopes(arrayOfLines)
 
 		for i in range(0, len(arrayOfLines)):
 			for j in range(0, len(arrayOfLines)):
 				if (arrayOfLines[i] == arrayOfLines[j]):
 					continue
 				else:
-					m1 = arrayOfSlopes[i]
-					m2 = arrayOfSlopes[j]
-
-					x1 = arrayOfLines[i][0][0]
-					x2 = arrayOfLines[j][0][0]
-
-					y1 = arrayOfLines[i][0][1]
-					y2 = arrayOfLines[j][0][1]
-
-					x = Pizza.findIntersectionXValueBetweenFunc_iAndFunc_j(m1, m2, x1, x2, y1, y2)
-					y = Pizza.findYValueFromXValueAndEquation(x, m1, x1, y1)
-
-					p = (x, y)
-					#sys.stdout.write(str(p[0]) + " " + str(p[1]) + "     ")
+					p = Pizza.giveIntersectionPointBetweenLines_i_and_j(i, j, arrayOfSlopes, arrayOfLines)
 					if (Pizza.checkIfInUnitCircle(p)):
-						IntersectionXs = Pizza.GiveCurrentIntersectionsSet(x, IntersectionXs)
+						pX = p[0]
+						IntersectionXs = Pizza.GiveCurrentIntersectionsSet(pX, IntersectionXs)
 						edges += 1
 
 				
