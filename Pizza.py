@@ -1,7 +1,7 @@
-
 import random
 import math
 import sys
+import matplotlib.pyplot as plt
 
 class Pizza:
 	def findIntersectionXValueBetweenFunc_iAndFunc_j(m1, m2, x1, x2, y1, y2):
@@ -143,6 +143,20 @@ class Pizza:
 		sys.stdout.write("Vertices: " + str(vertices) + "\n")
 		sys.stdout.write("Edges: " + str(Edges) + "\n")
 		sys.stdout.write("Faces: " + str(Faces) + "\n")
+
+		print(arrayOfLines)
+
+		fig, ax = plt.subplots()
+
+		plt.xlim(-1, 1)
+		plt.ylim(-1, 1)
+		plt.gca().set_aspect('equal', adjustable='box')
+		ax.add_artist(plt.Circle((0, 0), 1, fill=False, linewidth=.5))
+
+		for l in arrayOfLines:
+			plt.plot(*zip(*l))
+		plt.show()
+
 if __name__ == '__main__':
 	Pizza.main()					
 	
