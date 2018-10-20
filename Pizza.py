@@ -4,21 +4,36 @@ import math
 import sys
 
 class Pizza:
-	
+	#This Function finds the X Value of the intersection between the two lines
+	#m1 is line1's slope, m2 is line2's slope
+	#(x1, y1) is a point in line 1
+	#(x2, y2) is a point in line 2
+	#This equation is derived from systems of linear equations, the proof is left as an exercise to the reader
 	def findIntersectionXValueBetweenFunc_iAndFunc_j(m1, m2, x1, x2, y1, y2):
 		return ((y1 - y2) + (m2 * x2) - (m1 * x1)) / (m2 - m1)
 
+	#Just find the corresponding y value to an x value, given the slope and a point in line, (x1, y1)
 	def findYValueFromXValueAndEquation(x, m, x1, y1):
 		return m * (x - x1) + y1
 
-	def checkIfInUnitCircle(t):
-		return (t[0] * t[0] + t[1] * t[1]) < 1
-	def GiveCurrentIntersectionsSet(x, IntersectionXs):
-		for i in IntersectionXs:
-			if (abs(i - x) < 0.000001):
-				return IntersectionXs
-		IntersectionXs.add(x)
-		return IntersectionXs
+	#p is a tuple which represents a point, p[0] is x value, p[1] is the y value
+	#p is in the unit circle only if the square of x plus square of y is less than 1
+	def checkIfInUnitCircle(p):
+		return (p[0] * p[0] + p[1] * p[1]) < 1
+
+	#Given the set of x values of intersections found so far.
+	#return whether the new x value of the intersection is about the same
+	#I know its just the x value but x values being this close has low percent happening
+	#def GiveCurrentIntersectionsSet(x, IntersectionXs):
+	#	for i in IntersectionXs:
+	#		if (abs(i - x) < 0.0000000001):
+	#			return IntersectionXs
+	#	IntersectionXs.add(x)
+	#	return IntersectionXs
+
+	#Given the number of lines create a list of tuples of tuples of floats
+	#This array represents pairs of points which define a line in my code
+	#a random angle on the circle is picked for each point and trig does the rest
 	def giveListOfLines(n):
 		arrayOfLines = []
 		for i in range(0, n):
@@ -33,6 +48,11 @@ class Pizza:
 
 			arrayOfLines += [((x1, y1),(x2, y2))]
 		return arrayOfLines
+
+	#Remember tuple values are accessed just like arrays
+	#Each tuple in arrayOfLines has two tuples that represent the two points that define the line
+	#The slope for each line is found and recorded
+	#The slope is the difference between the y values divided by difference of x values
 	def GiveListOfSlopes(arrayOfLines):
 		arrayOfSlopes = []
 		for i in range(len(arrayOfLines)):
@@ -41,6 +61,11 @@ class Pizza:
 			m = dy / dx 
 			arrayOfSlopes += [m]
 		return arrayOfSlopes
+
+	#This finds the intersection between lines in arrayOfLines at indices i and j
+	#arrayOfSlopes stores the corresponding slopes at i and j
+	#remember arrayOfLines is a tuple of tuples of floats and values in tuples are accessed like arrays
+	#I read the coord values of the first and second point then feed into intersection coord finder functions
 	def giveIntersectionPointBetweenLines_i_and_j(i, j, arrayOfSlopes, arrayOfLines):
 		m1 = arrayOfSlopes[i]
 		m2 = arrayOfSlopes[j]
@@ -59,34 +84,46 @@ class Pizza:
 	def main():
 		n = 3
 
-		IntersectionXs = set()
+		#IntersectionXs = set()
 		arrayOfLines = []	
 		arrayOfSlopes = []
 
 		vertices = 0
 		edges = 0
 
-		
+		#find all the lines and their slopes based on number of lines
 		arrayOfLines = Pizza.giveListOfLines(n)		
 		arrayOfSlopes = Pizza.GiveListOfSlopes(arrayOfLines)
 
+		#For each line I will check every other line whether it intersects
+		#for inner loop i start at i so that each pair of lines is checked once
 		for i in range(0, len(arrayOfLines)):
 			for j in range(i, len(arrayOfLines)):
+				#do not find intersection of line with itself
 				if (arrayOfLines[i] == arrayOfLines[j]):
 					continue
 				else:
+					#Call intersection finding function
 					p = Pizza.giveIntersectionPointBetweenLines_i_and_j(i, j, arrayOfSlopes, arrayOfLines)
+					#If the intersection isn't in circle then it is useless
 					if (Pizza.checkIfInUnitCircle(p)):
 						pX = p[0]
-						IntersectionXs = Pizza.GiveCurrentIntersectionsSet(pX, IntersectionXs)
+						#originally update the number of intersections if it is a unique intersection
+						#but realize redundant
+						#IntersectionXs = Pizza.GiveCurrentIntersectionsSet(pX, IntersectionXs)
+
+						#An intersection indicates one additional vertex and two more edges
+						vertices += 1
 						edges += 2
 
-				
-		Vertices = len(IntersectionXs)+6
+		#add six vertices for circle edges
+		vertices += 6
+		#add 6 edges for circle edges and 3 for original line edges
+		# since intersections just add one per intersection
 		Edges = edges + 9
-		Faces = 1 - Vertices + Edges
-		sys.stdout.write("Vertices: " + str(Vertices))
-		sys.stdout.write("\n")
+		#euler alert
+		Faces = 1 - vertices + Edges
+		sys.stdout.write("Vertices: " + str(vertices) + "\n")
 		sys.stdout.write("Edges: " + str(Edges) + "\n")
 		sys.stdout.write("Faces: " + str(Faces) + "\n")
 if __name__ == '__main__':
