@@ -4,6 +4,15 @@ import math
 import sys
 
 class Pizza:
+	n = 3
+
+	IntersectionXs = set()
+	arrayOfLines = []
+	
+	arrayOfSlopes = []
+
+	vertices = 2 * len(arrayOfLines)
+	edges = 2 * len(arrayOfLines)
 	def findIntersectionXValueBetweenFunc_iAndFunc_j(m1, m2, x1, x2, y1, y2):
 		return ((y1 - y2) + (m2 * x2) - (m1 * x1)) / (m2 - m1)
 
@@ -12,10 +21,13 @@ class Pizza:
 
 	def checkIfInUnitCircle(t):
 		return (t[0] * t[0] + t[1] * t[1]) < 1
+	def GiveCurrentIntersectionsSet(x, IntersectionXs):
+		for i in IntersectionXs:
+			if (abs(i - x) < 0.000001):
+				return IntersectionXs
+		IntersectionXs.add(x)
+		return IntersectionXs
 
-	n = 3
-
-	arrayOfLines = []
 	for i in range(0, n):
 		
 		x1 = math.cos(random.random()*2*math.pi)
@@ -25,10 +37,7 @@ class Pizza:
 
 		arrayOfLines += [((x1, y1),(x2,y2))]
 	
-	arrayOfSlopes = []
 
-	vertices = 2 * len(arrayOfLines)
-	edges = 2 * len(arrayOfLines)
 
 	for i in range(0, len(arrayOfLines)):
 		dx = arrayOfLines[i][0][0] - arrayOfLines[i][1][0]
@@ -56,12 +65,13 @@ class Pizza:
 				p = (x, y)
 				#sys.stdout.write(str(p[0]) + " " + str(p[1]) + "     ")
 				if (checkIfInUnitCircle(p)):
-					vertices += 1
-					edges += 2
+					IntersectionXs = GiveCurrentIntersectionsSet(x, IntersectionXs)
+					edges += 1
 
 				
-	sys.stdout.write(str(vertices))
-	sys.stdout.write(str(edges))
+	sys.stdout.write("Vertices: " + str(len(IntersectionXs)+6))
+	sys.stdout.write("\n")
+	sys.stdout.write("Edges: " + str(edges + 9) + "\n")
 					
 	
 
