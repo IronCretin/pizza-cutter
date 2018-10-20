@@ -17,10 +17,11 @@ class Pizza:
 
 	arrayOfLines = []
 	for i in range(0, n):
-		x1 = random.random()*2*math.pi
-		y1 = random.random()*2*math.pi
-		x2 = random.random()*2*math.pi
-		y2 = random.random()*2*math.pi
+		
+		x1 = math.cos(random.random()*2*math.pi)
+		y1 = math.sin(random.random()*2*math.pi)
+		x2 = math.cos(random.random()*2*math.pi)
+		y2 = math.sin(random.random()*2*math.pi)
 
 		arrayOfLines += [((x1, y1),(x2,y2))]
 	
@@ -56,10 +57,11 @@ class Pizza:
 				#sys.stdout.write(str(p[0]) + " " + str(p[1]) + "     ")
 				if (checkIfInUnitCircle(p)):
 					vertices += 1
-					edges += 1
+					edges += 2
 
 				
 	sys.stdout.write(str(vertices))
+	sys.stdout.write(str(edges))
 					
 	
 
