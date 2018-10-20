@@ -69,9 +69,13 @@ class Pizza:
 					edges += 1
 
 				
-	sys.stdout.write("Vertices: " + str(len(IntersectionXs)+6))
+	Vertices = len(IntersectionXs)+6
+	Edges = edges + 9
+	Faces = 1 - Vertices + Edges
+	sys.stdout.write("Vertices: " + str(Vertices))
 	sys.stdout.write("\n")
-	sys.stdout.write("Edges: " + str(edges + 9) + "\n")
+	sys.stdout.write("Edges: " + str(Edges) + "\n")
+	sys.stdout.write("Faces: " + str(Faces) + "\n")
 					
 	
 
