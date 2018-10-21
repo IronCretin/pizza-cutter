@@ -23,11 +23,19 @@ def main():
     """
     n = 2
     count;
+    numberThrees = 0
+    numberFours = 0
+
     for i in range(1000000):
         verts = fasterPizza.calculateAndReturnVertices(n)[0]
         faces = 1 - verts + 3*n + 2 * (verts - 2*n)
         count += faces
-    sys.stdout.write(str(count / 1000000))
+        if (faces == 3):
+            numberThrees += 1
+        if (faces == 4):
+            numberFours += 1
+    sys.stdout.write("average: " + str(count / 1000000)+ " PercentThree: " + str(numberThrees/1000000) + " PercentFours: " + str(numberFours/1000000) )
+
     """
     
     for n in range(1, 20):
