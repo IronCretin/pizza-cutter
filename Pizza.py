@@ -47,6 +47,8 @@ class Pizza:
 		a random angle on the circle is picked for each point and trig does the rest
 		"""
 		arrayOfLines = []
+
+		arrayOfAnglesForDrawing = []
 		for i in range(0, n):
 		
 			theta1 = random.random()*2*math.pi
@@ -58,7 +60,8 @@ class Pizza:
 			y2 = math.sin(theta2)
 
 			arrayOfLines += [((x1, y1),(x2, y2))]
-		return arrayOfLines
+			arrayOfAnglesForDrawing += [(theta1, theta2)]
+		return (arrayOfLines, arrayOfAnglesForDrawing)
 
 	def GiveListOfSlopes(arrayOfLines):
 		
@@ -98,8 +101,7 @@ class Pizza:
 
 		return (x, y)
 				
-	def main():
-		n = 3
+	def main(n = 3):
 
 		#IntersectionXs = set()
 		arrayOfLines = []	
@@ -109,7 +111,9 @@ class Pizza:
 		edges = 0
 
 		#find all the lines and their slopes based on number of lines
-		arrayOfLines = Pizza.giveListOfLines(n)		
+		data = Pizza.giveListOfLines(n)
+		arrayOfLines = data[0]
+		arrayOfAnglesForDrawing = data[1]		
 		arrayOfSlopes = Pizza.GiveListOfSlopes(arrayOfLines)
 
 		#For each line I will check every other line whether it intersects
@@ -134,31 +138,45 @@ class Pizza:
 						edges += 2
 
 		#add six vertices for circle edges
-		vertices += 6
+		vertices += 2*n
 		#add 6 edges for circle edges and 3 for original line edges
 		# since intersections just add one per intersection
-		Edges = edges + 9
+		Edges = edges + 3*n
 		#euler alert
 		Faces = 1 - vertices + Edges
+		return (vertices, arrayOfAnglesForDrawing)
+		"""
 		sys.stdout.write("Vertices: " + str(vertices) + "\n")
 		sys.stdout.write("Edges: " + str(Edges) + "\n")
 		sys.stdout.write("Faces: " + str(Faces) + "\n")
-
 		print(arrayOfLines)
+		"""
+
+
+	def drawshiz():
+		n = 4
+		data = Pizza.main(n)
+		verts = data[0]
+		edges = 3*n + 2*(verts - 2*n)
+		faces = 1 - verts + edges
+		sys.stdout.write("Vertices: " + str(verts) + "\n")
+		sys.stdout.write("Edges: " + str(edges) + "\n")
+		sys.stdout.write("Faces: " + str(faces) + "\n")
 
 		fig, ax = plt.subplots()
-
 		plt.xlim(-1, 1)
-		plt.ylim(-1, 1)
+		plt.ylim(-1, 1) 
 		plt.gca().set_aspect('equal', adjustable='box')
 		ax.add_artist(plt.Circle((0, 0), 1, fill=False, linewidth=.5))
 
-		for l in arrayOfLines:
-			plt.plot(*zip(*l))
+		for a in data[1]:
+		    #plt.plot((0, 1), (1, 1), 'r')
+		    plt.plot([math.cos(a[0]), math.cos(a[1])], [math.sin(a[0]), math.sin(a[1])])
 		plt.show()
 
+	
 if __name__ == '__main__':
-	Pizza.main()					
+	Pizza.drawshiz()					
 	
 
 
