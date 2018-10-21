@@ -80,7 +80,7 @@ def calculateAndReturnVertices(n):
                 arrayOfSetsOfIntersects[s].discard(dictOfLineIds[a][1])
     #sys.stdout.write(str(arrayOfSetsOfIntersects))
 
-    sys.stdout.write("Vertices: ")
+    #sys.stdout.write("Vertices: ")
     count = 2*n
 
     #the sum of all the intersections stored in array here is very much the number of vertices

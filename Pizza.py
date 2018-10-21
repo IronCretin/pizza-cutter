@@ -140,6 +140,7 @@ class Pizza:
 		Edges = edges + 9
 		#euler alert
 		Faces = 1 - vertices + Edges
+		"""
 		sys.stdout.write("Vertices: " + str(vertices) + "\n")
 		sys.stdout.write("Edges: " + str(Edges) + "\n")
 		sys.stdout.write("Faces: " + str(Faces) + "\n")
@@ -156,6 +157,9 @@ class Pizza:
 		for l in arrayOfLines:
 			plt.plot(*zip(*l))
 		plt.show()
+		"""
+		return vertices
+
 
 if __name__ == '__main__':
 	Pizza.main()					
