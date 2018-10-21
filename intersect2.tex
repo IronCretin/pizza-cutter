@@ -17,7 +17,7 @@
 \maketitle
 
 \begin{abstract}
-This document outlines a method for determining how many slices two lines divide a circle into.
+This document outlines a method for determining probabilities how many slices two random lines will divide a circle into.
 \end{abstract}
 
 \section{Setup}
@@ -152,11 +152,12 @@ We can then calculate the total probability of each by integrating over the enti
     P(3\text{ regions}) &= \int_0^{2\pi} \frac{\alpha^2 + (2\pi-\alpha)^2}
         {8\pi^3} \,d\alpha &= \frac{2}{3} \\
     P(4\text{ regions}) &= \int_0^{2\pi} \frac{2\alpha(2\pi-\alpha)}
-        {8\pi^3} \,d\alpha &= \frac{2}{3}
+        {8\pi^3} \,d\alpha &= \frac{1}{3}
 \end{align}
 
 \section{Conclusion}
 
-From these calculations, we can see that the odds are 2/3 for 3 regions, and 1/3 for 2 regions.
+From these calculations, we can see that the odds are $\frac{2}{3}$ for 3 regions, and $\frac{1}{3}$ for 2 regions.
+This method can possibly be extended to $n$ regions, with some more work.
 
 \end{document}
