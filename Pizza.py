@@ -98,23 +98,24 @@ class Pizza:
 
 		return (x, y)
 				
-	def main():
-		n = 3
+	def main(arrayOfLines, n):
 
 		#IntersectionXs = set()
-		arrayOfLines = []	
+		#arrayOfLines = []	
 		arrayOfSlopes = []
 
 		vertices = 0
 		edges = 0
 
 		#find all the lines and their slopes based on number of lines
-		arrayOfLines = Pizza.giveListOfLines(n)		
+		#arrayOfLines = Pizza.giveListOfLines(n)		
 		arrayOfSlopes = Pizza.GiveListOfSlopes(arrayOfLines)
 
 		#For each line I will check every other line whether it intersects
 		#for inner loop i start at i so that each pair of lines is checked once
+		#sys.stdout.write(str(len(arrayOfLines)))
 		for i in range(0, len(arrayOfLines)):
+
 			for j in range(i, len(arrayOfLines)):
 				#do not find intersection of line with itself
 				if (arrayOfLines[i] == arrayOfLines[j]):
@@ -123,6 +124,7 @@ class Pizza:
 					#Call intersection finding function
 					p = Pizza.giveIntersectionPointBetweenLines_i_and_j(i, j, arrayOfSlopes, arrayOfLines)
 					#If the intersection isn't in circle then it is useless
+					#sys.stdout.write("got here\n")
 					if (Pizza.checkIfInUnitCircle(p)):
 						pX = p[0]
 						#originally update the number of intersections if it is a unique intersection
@@ -134,10 +136,10 @@ class Pizza:
 						edges += 2
 
 		#add six vertices for circle edges
-		vertices += 6
+		vertices += 2*n
 		#add 6 edges for circle edges and 3 for original line edges
 		# since intersections just add one per intersection
-		Edges = edges + 9
+		Edges = edges + 3*n
 		#euler alert
 		Faces = 1 - vertices + Edges
 		"""
