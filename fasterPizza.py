@@ -1,6 +1,7 @@
 import random
 import math
 import sys
+import matplotlib.pyplot as plt
 def calculateAndReturnVertices(n):
     #In my code i use this array to store, for each line, a set that contains lines that intersect with it
     #The code also doesn't allow the same intersections to be in two different sets
@@ -20,13 +21,13 @@ def calculateAndReturnVertices(n):
     pi = math.pi
 
  
-
+    arrayOfLinesAnglesForDrawing = []
 
     for i in range(n):
         #for each line, i, two angles are made
         angle1 = random.random() * 2 * pi
         angle2 = random.random() * 2 * pi
-
+        arrayOfLinesAnglesForDrawing += [(angle1, angle2)]
         #each angle has a separate entry in the dictionary
         #the dictionary stores a tuple storing two things:
         #whether it is smaller angle or not and the line # id
@@ -85,15 +86,27 @@ def calculateAndReturnVertices(n):
     #the sum of all the intersections stored in array here is very much the number of vertices
     for s in arrayOfSetsOfIntersects:
         count += len(s)
-    return count
+    return (count, arrayOfLinesAnglesForDrawing)
 def printshiz(n = 3):
-    verts = calculateAndReturnVertices(n)
+    data = calculateAndReturnVertices(n)
+    verts = data[0]
     edges = 3*n + 2*(verts - 2*n)
     faces = 1 - verts + edges
     sys.stdout.write("Vertices: " + str(verts) + "\n")
     sys.stdout.write("Edges: " + str(edges) + "\n")
     sys.stdout.write("Faces: " + str(faces) + "\n")
 
+    fig, ax = plt.subplots()
+    plt.xlim(-1, 1)
+    plt.ylim(-1, 1) 
+    plt.gca().set_aspect('equal', adjustable='box')
+    ax.add_artist(plt.Circle((0, 0), 1, fill=False, linewidth=.5))
+
+    for a in data[1]:
+        #plt.plot((0, 1), (1, 1), 'r')
+        plt.plot([math.cos(a[0]), math.cos(a[1])], [math.sin(a[0]), math.sin(a[1])])
+    plt.show()
+
 if __name__ == '__main__':
-	printshiz()
+	printshiz(3)
 	
